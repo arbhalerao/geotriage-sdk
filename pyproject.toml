@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geotriage-sdk"
+version = "0.1.0"
+description = "Authoring contract for geotriage models and providers"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2.0"]
+
+[project.optional-dependencies]
+# Providers talk to STAC APIs; model authors don't need this.
+providers = ["pystac-client>=0.8"]
+# `geotriage test` pulls real pixels, so it needs a raster reader. Kept out of the
+# base install so authoring a model never drags GDAL in.
+dev = ["pystac-client>=0.8", "rasterio>=1.4"]
+test = ["pytest>=8", "black>=24"]
+
+[project.scripts]
+geotriage = "geotriage.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["geotriage*"]
+
+[tool.black]
+line-length = 200
+target-version = ["py312"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
