@@ -1,0 +1,19 @@
+# A provider image, in full
+#
+#     docker build -t my-registry/my-archive:1.0 .
+#
+# Then add it in the platform under Providers -> Add a provider
+
+FROM localhost/geotriage/sdk:0.1
+
+COPY provider.py /src/
+
+# Which class to load, and what makes this image a provider rather than a model
+# Exactly one of GEOTRIAGE_MODEL / GEOTRIAGE_PROVIDER may be set
+ENV GEOTRIAGE_PROVIDER=provider:MyArchive
+
+# Providers are the one thing the platform runs with network access, because
+# talking to a STAC API is the entire job. Credentials are passed in at run time,
+# never baked in here
+#
+#     docker run --rm my-registry/my-archive:1.0 describe

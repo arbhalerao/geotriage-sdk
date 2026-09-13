@@ -1,0 +1,25 @@
+# A model image, in full. This is the whole file, you add one Python file and name the class
+#
+#     docker build -t my-registry/my-detector:1.0 .
+#
+# Then add it in the platform under Models -> Add a model, pasting that same tag
+
+FROM localhost/geotriage/sdk:0.1
+
+# Your model. Anything it imports has to be here too, or installed above
+COPY model.py /src/
+
+# Which class to load, and what makes this image a model rather than a provider
+# Exactly one of GEOTRIAGE_MODEL / GEOTRIAGE_PROVIDER may be set
+ENV GEOTRIAGE_MODEL=model:MyDetector
+
+# Extra dependencies go above the COPY so they stay cached, e.g.
+#
+#     RUN pip install --no-cache-dir torch==2.5.1
+#     COPY model.py weights.pt /src/
+#
+# Nothing else is needed: the base image carries the contract, a raster reader and
+# the entrypoint that speaks the platform's protocol. Check it the way the platform
+# will, before you register it:
+#
+#     docker run --rm my-registry/my-detector:1.0 describe
