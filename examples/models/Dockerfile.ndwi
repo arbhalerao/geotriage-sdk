@@ -1,0 +1,9 @@
+# A model, in full. This is what an author writes.
+ARG BASE=localhost/geotriage/sdk:0.1
+FROM ${BASE}
+
+COPY ndwi_water.py /src/
+
+# Which class the runtime should load, and what makes this a model rather than a
+# provider. That's the only wiring.
+ENV GEOTRIAGE_MODEL=ndwi_water:NDWIWaterDetector

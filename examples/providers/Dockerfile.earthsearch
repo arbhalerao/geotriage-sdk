@@ -1,0 +1,4 @@
+ARG BASE=localhost/geotriage/sdk:0.1
+FROM ${BASE}
+COPY earth_search.py /src/
+ENV GEOTRIAGE_PROVIDER=earth_search:EarthSearchProvider
