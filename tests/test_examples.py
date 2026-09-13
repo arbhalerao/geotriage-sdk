@@ -33,7 +33,7 @@ def test_example_models_are_conformant(relative, name):
     "relative,name",
     [
         ("providers/earth_search.py", "EarthSearchProvider"),
-        ("providers/planetary_computer.py", "PlanetaryComputerProvider"),
+        ("providers/planetary_computer_provider.py", "PlanetaryComputerProvider"),
     ],
 )
 def test_example_providers_are_conformant(relative, name):
@@ -72,7 +72,7 @@ def collection_of(relative: str, name: str, slug: str):
 
 
 def test_ndwi_on_landsat_surface_reflectance():
-    landsat = collection_of("providers/planetary_computer.py", "PlanetaryComputerProvider", "landsat-c2-l2")
+    landsat = collection_of("providers/planetary_computer_provider.py", "PlanetaryComputerProvider", "landsat-c2-l2")
     bands = staged(landsat, {"green": raw_scene(1), "nir": raw_scene(2)})
     out = load("models/ndwi_water.py", "NDWIWaterDetector").run(bands)
     assert out["ndwi_mean"] == pytest.approx(-0.033014)
@@ -90,7 +90,7 @@ def test_ndwi_on_sentinel2():
 
 
 def test_lst_on_landsat_thermal():
-    landsat = collection_of("providers/planetary_computer.py", "PlanetaryComputerProvider", "landsat-c2-l2")
+    landsat = collection_of("providers/planetary_computer_provider.py", "PlanetaryComputerProvider", "landsat-c2-l2")
     bands = staged(landsat, {"thermal1": raw_scene(3)})
     out = load("models/lst.py", "LSTDetector").run(bands)
     assert out["lst_mean"] == pytest.approx(-50.4494)
@@ -99,7 +99,7 @@ def test_lst_on_landsat_thermal():
 
 
 def test_derived_raster_matches_the_scored_array():
-    landsat = collection_of("providers/planetary_computer.py", "PlanetaryComputerProvider", "landsat-c2-l2")
+    landsat = collection_of("providers/planetary_computer_provider.py", "PlanetaryComputerProvider", "landsat-c2-l2")
     bands = staged(landsat, {"green": raw_scene(1), "nir": raw_scene(2)})
     model = load("models/ndwi_water.py", "NDWIWaterDetector")
     raster = model.derived_rasters(bands)["ndwi"]
@@ -108,7 +108,7 @@ def test_derived_raster_matches_the_scored_array():
 
 def test_a_model_reads_the_same_band_name_across_archives():
     model = load("models/ndwi_water.py", "NDWIWaterDetector")
-    landsat = collection_of("providers/planetary_computer.py", "PlanetaryComputerProvider", "landsat-c2-l2")
+    landsat = collection_of("providers/planetary_computer_provider.py", "PlanetaryComputerProvider", "landsat-c2-l2")
     s2 = collection_of("providers/earth_search.py", "EarthSearchProvider", "sentinel-2-l2a")
     for collection in (landsat, s2):
         out = model.run(staged(collection, {"green": raw_scene(11), "nir": raw_scene(12)}))

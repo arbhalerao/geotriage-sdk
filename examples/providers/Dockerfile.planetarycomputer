@@ -1,4 +1,4 @@
 ARG BASE=localhost/geotriage/sdk:0.1
 FROM ${BASE}
-COPY planetary_computer.py /src/
-ENV GEOTRIAGE_PROVIDER=planetary_computer:PlanetaryComputerProvider
+COPY planetary_computer_provider.py /src/
+ENV GEOTRIAGE_PROVIDER=planetary_computer_provider:PlanetaryComputerProvider

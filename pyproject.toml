@@ -11,11 +11,8 @@ requires-python = ">=3.12"
 dependencies = ["numpy>=2.0"]
 
 [project.optional-dependencies]
-# Providers talk to STAC APIs; model authors don't need this.
-providers = ["pystac-client>=0.8"]
-# `geotriage test` pulls real pixels, so it needs a raster reader. Kept out of the
-# base install so authoring a model never drags GDAL in.
-dev = ["pystac-client>=0.8", "rasterio>=1.4"]
+providers = ["pystac-client>=0.8", "planetary-computer>=1.0"]
+dev = ["pystac-client>=0.8", "planetary-computer>=1.0", "rasterio>=1.4"]
 test = ["pytest>=8", "black>=24"]
 
 [project.scripts]
